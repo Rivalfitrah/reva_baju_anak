@@ -15,13 +15,13 @@ function Navbar() {
               />
             </div>
             <div className="items-center justify-center space-x-4">
-              <a href="" className="text-lg font- hover:text-[#FFA09B]">
+              <a href="/" className="text-lg font- hover:text-jambu">
                 Home
               </a>
-              <a href="" className="text-lg font- hover:text-[#FFA09B]">
+              <a href="/about" className="text-lg font- hover:text-jambu">
                 About
               </a>
-              <a href="" className="text-lg font- hover:text-[#FFA09B]">
+              <a href="/product" className="text-lg font- hover:text-jambu">
                 Product
               </a>
             </div>
@@ -33,7 +33,7 @@ function Navbar() {
                 <input
                   type="text"
                   placeholder="Search..."
-                  className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-[#FFA09B] focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-slate-600 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-jambu focus:border-transparent"
                 />
               </div>
 
@@ -42,7 +42,7 @@ function Navbar() {
               </button>
               <button
                 href=""
-                className="text-lg font-semibold border-2 border-[#FFA09B] p-2 cursor-pointer"
+                className="text-lg font-semibold border-2 border-jambu p-2 cursor-pointer rounded-lg"
                 onClick={() => (window.location.href = "/login")}
               >
                 Login

@@ -29,11 +29,11 @@ function Login() {
         <a href='' className=' flex justify-end'>lupa password?</a>
 
         {/* Tombol Masuk */}
-        <button className="w-full bg-gradient-to-b from-[#FFE6C9] to bg-[#FFA09B] text-black font-semibold py-2 mt-4 rounded-md">
+        <button className="w-full bg-gradient-to-b from-[#FFE6C9] to bg-jambu text-black font-semibold py-2 mt-4 rounded-md">
             Masuk
         </button>
 
-        <p className='flex justify-center p-3'>Belum punya akun?
+        <p className='flex justify-center p-3 gap-2'>Belum punya akun?
             <Link to='/register' className='text-blue-500'> Daftar</Link>
         </p>
     </div>

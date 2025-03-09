@@ -4,6 +4,9 @@ import AboutPage from "./pages/AboutPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFoundPage from "./pages/NotFoundPage";
+import ProductPage from "./pages/ProductPage";
+import ProfilPage from "./pages/ProfilPage";
+import HistoryPage from "./pages/HistoryPage";
 
 const AppRoute = () => {
     return (
@@ -14,6 +17,9 @@ const AppRoute = () => {
                 <Route path="/login" element={<Login/>} />
                 <Route path="/register" element={<Register/>} />
                 <Route path="*" element ={<NotFoundPage/>}/>
+                <Route path="/product" element={<ProductPage/>} />
+                <Route path="/profil" element={<ProfilPage/>} />
+                <Route path="/history" element={<HistoryPage/>} />
             </Routes>
         </BrowserRouter>
     );

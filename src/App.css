@@ -1,5 +1,26 @@
 @import "tailwindcss";
 
 body {
-    @apply bg-gradient-to-b from-[#FFFFFF] via-[#FEE5CB] via-64% to-[#FADCDA] min-h-screen;
+    @apply bg-gradient-to-r from-putih via-dua via-64% to-empat min-h-screen;
+}
+
+@theme {
+    --color-satu: #FFE6C9;
+    --color-dua: #FEE5CB;
+    --color-empat: #FADCDA;
+    --color-putih: #FFFFFF;
+    --color-pink: #FCC6FF;
+    --color-jambu: #FFA09B;
+}
+
+button {
+    cursor: pointer;
+}
+
+.nav-link {
+  @apply py-2 px-4 block hover:bg-gray-200;
+}
+
+.nav-link[aria-current="page"] {
+  @apply bg-gray-300 font-bold;
 }

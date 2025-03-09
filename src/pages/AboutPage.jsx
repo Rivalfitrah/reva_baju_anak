@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 function AboutPage() {
   return (
-    <div>AboutPage</div>
-  )
+    <>
+      <Navbar />
+      <br /><br /><br /><br />
+      <Footer />
+    </>
+  );
 }
 
-export default AboutPage
+export default AboutPage;

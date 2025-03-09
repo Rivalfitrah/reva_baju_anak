@@ -37,7 +37,7 @@ function Register() {
             Daftar
         </button>
 
-        <p className='flex justify-center p-3'>Sudah punya akun?
+        <p className='flex justify-center p-3 gap-2'>Sudah punya akun?
             <Link to='/login' className='text-blue-500'> Masuk</Link>
         </p>
     </div>
