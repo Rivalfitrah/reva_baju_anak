@@ -9,13 +9,15 @@ function ProductPage() {
     <>
       <Navbar />
       <div className="pt-30 container mx-auto max-w-7xl px-4">
-        {/* Layout Sidebar + Produk */}
-        <div className="flex gap-8">
-          {/* Sidebar Kategori */}
-          <SelectKategori />
+        {/* Gunakan grid di mobile dan flex di desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-[250px_1fr] gap-8">
+          {/* Sidebar Kategori, berada di atas di mobile */}
+          <div className="order-1 md:order-none">
+            <SelectKategori />
+          </div>
 
-          {/* Produk */}
-          <div className="flex-1">
+          {/* Produk, berada di bawah di mobile */}
+          <div className="order-2 md:order-none">
             <Card judul="Produk" jumlah={6} isi={3} />
           </div>
         </div>

@@ -9,12 +9,10 @@ function HomePage() {
   return (
     <>
       <Navbar />
-      <HeroSection imagesrc="/images/Group 2.svg" posisi="mb-25"/>
+      <HeroSection imagesrc="/images/Group 2.svg" posisi="bottom-[10px] md:bottom-6 lg:bottom-4" showbutton={false} />
       <Card judul="Produk Terbaru" jumlah={4} isi={4}/>
-      <div className='pt-25'>
-      <HeroSection imagesrc="/images/banner.svg" posisi="right-[29%] mb-10"/>
-      </div>
-      <div className='pt-25'>
+      <HeroSection imagesrc="/images/banner.svg" showbutton={false}/>
+      <div className='pt-10 md:pt-25'>
       <Card judul="Rekomendasi Produk" jumlah={12} isi={4}/>
       </div>
       <br />

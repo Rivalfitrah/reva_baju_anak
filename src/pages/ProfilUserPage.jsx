@@ -1,20 +1,23 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
 import SidebarProfile from '../components/akun/SidebarProfil'
-import History from '../components/akun/History'
+import Navbar from '../components/Navbar'
+import UserProfil from '../components/akun/UserProfil'
 
-function HistoryPage() {
+
+function ProfilUserPage() {
   return (
     <>
     <Navbar/>
     <br /><br /><br /><br /><br />
     <div className="flex gap-2 container mx-auto max-w-7xl px-4">
     <SidebarProfile/>
-    <History/>
+    <UserProfil/>
     </div>
+
+
     
     </>
   )
 }
 
-export default HistoryPage
+export default ProfilUserPage

@@ -8,7 +8,7 @@ function Login() {
     <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full">
         {/* Logo */}
         <div className="flex justify-center mb-4">
-            <img src="../images/logo-reva-baju-anak.png" alt="Logo" className="w-20 h-20" />
+            <img src="../images/logo.png" alt="Logo" className="w-20 h-20" />
         </div>
 
         {/* Judul */}

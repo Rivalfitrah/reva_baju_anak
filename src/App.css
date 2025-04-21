@@ -24,3 +24,7 @@ button {
 .nav-link[aria-current="page"] {
   @apply bg-gray-300 font-bold;
 }
+
+a.active {
+  color: red;
+}

@@ -1,20 +1,19 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
+import Alamat from '../components/akun/Alamat'
 import SidebarProfile from '../components/akun/SidebarProfil'
-import History from '../components/akun/History'
+import Navbar from '../components/Navbar'
 
-function HistoryPage() {
+function AlamatPage() {
   return (
-    <>
+    <div>
     <Navbar/>
     <br /><br /><br /><br /><br />
     <div className="flex gap-2 container mx-auto max-w-7xl px-4">
     <SidebarProfile/>
-    <History/>
+    <Alamat/>
     </div>
-    
-    </>
+    </div>
   )
 }
 
-export default HistoryPage
+export default AlamatPage
