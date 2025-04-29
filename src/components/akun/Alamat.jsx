@@ -1,6 +1,6 @@
 import { Pencil } from 'lucide-react'
 import React from 'react'
-import ProfilModal from '../input/ProfilModal'
+import ProfilModal from '../input/AlamatModal'
 
 function Alamat() {
   const [isopen, setIsOpen] = React.useState(false)
