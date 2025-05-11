@@ -4,10 +4,12 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import "../App.css";
 import SearchResultItem from "./input/SearchResult";
+import ProfileMenu from "./akun/ProfilMenu";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [openmenu, setOpenMenu] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -110,11 +112,15 @@ function Navbar() {
                   </button>
                 ) : (
                   // Tombol Ikon User
-                  <button
-                    onClick={() => console.log("Buka profil / menu akun")}
-                  >
-                    <User size={30} className="text-jambu" />
+                <div className="relative">
+                  <button onClick={() => setOpenMenu(!openmenu)}>
+                    <User size={30} />
                   </button>
+
+                  {openmenu && (
+                    <ProfileMenu onClose={() => setOpenMenu(false)} />
+                  )}
+                </div>
                 )}
               </div>
 

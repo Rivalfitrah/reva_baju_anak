@@ -49,31 +49,6 @@ function SidebarProfile() {
   )}
       </NavLink>
 
-
-        <NavLink
-          to="/alamat"
-          className={({ isActive }) =>
-            `flex items-center px-4 py-3 rounded-lg transition-all duration-200 ${
-              isActive
-                ? "bg-pink-500 text-white shadow-md"
-                : "bg-gray-100 text-gray-800 hover:bg-blue-100 hover:shadow-md"
-            }`
-          }
-        >
-        
-        {({ isActive }) => (
-    <>
-      <FontAwesomeIcon
-        icon={faLocationDot}
-        className={`mr-3 w-5 h-5 transition-colors duration-300 ${
-          isActive ? 'text-white' : 'text-pink-500'
-        }`}
-      />
-      <span className="font-medium">Alamat</span>
-    </>
-  )}
-        </NavLink>
-
         <NavLink
           to="/history"
           className={({ isActive }) =>

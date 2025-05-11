@@ -18,11 +18,6 @@ function Alamat() {
         <h2 className="text-2xl font-bold mb-6">Profil Informasi</h2>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
-        <p className="text-gray-600 font-medium">Kota</p>
-        <p className="text-gray-800">Bogor</p>
-        <hr />
-      </div>
-      <div>
         <p className="text-gray-600 font-medium">Provinsi</p>
         <p className="text-gray-800">jawa</p>
         <hr />
@@ -30,11 +25,6 @@ function Alamat() {
       <div>
         <p className="text-gray-600 font-medium">Kode pos</p>
         <p className="text-gray-800">77</p>
-        <hr />
-      </div>
-      <div>
-        <p className="text-gray-600 font-medium">Negara</p>
-        <p className="text-gray-800">wakanda bagian selatan</p>
         <hr />
       </div>
         <div>

@@ -3,6 +3,7 @@ import SidebarProfile from "../../components/akun/SidebarProfil";
 import Navbar from "../../components/Navbar";
 import UserProfil from "../../components/akun/UserProfil";
 
+
 function ProfilUserPage() {
   return (
     <>
