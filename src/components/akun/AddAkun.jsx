@@ -8,6 +8,7 @@ function AddAkun() {
   const [telepon, setTelepon] = useState('')
   const [alamat, setAlamat] = useState('')
   const [kodepos, setKodepos] = useState('')
+  const [kota, setKota] = useState('')
   const [provinsi, setProvinsi] = useState('')
   const [imgFile, setImgFile] = useState(null)
   const [imgPreview, setImgPreview] = useState("../images/profile-placeholder.png")
@@ -28,7 +29,7 @@ function AddAkun() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await postUser(nama, telepon, alamat, kodepos, provinsi, imgFile)
+      const response = await postUser(nama, telepon, alamat, kodepos, kota, provinsi, imgFile)
       console.log("berhasil post user:", response)
       Swal.fire({
         icon: 'success',
@@ -102,6 +103,18 @@ function AddAkun() {
                 className="block w-full p-2 border border-gray-300 rounded-md mt-1"
                 value={telepon}
                 onChange={(e) => setTelepon(e.target.value)}
+                required
+              />
+            </label>
+            <label htmlFor="kota">
+              <span className="text-lg font-semibold">Kota</span>
+              <input
+                type="text"
+                id="kota"
+                placeholder="Kota"
+                className="block w-full p-2 border border-gray-300 rounded-md mt-1"
+                value={kota}
+                onChange={(e) => setKota(e.target.value)}
                 required
               />
             </label>

@@ -1,25 +1,42 @@
 import React from "react";
 import {User,History,Store,} from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
+import { getImageUrl, getUserLogin } from "../../service/api";
+import { useEffect, useState } from "react";
 
 
 function SidebarProfile() {
+  const [userData, setUserData] = useState(null);
+  const placeholderImage = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541";
+
+  useEffect(() => {
+    const fetchdata = async () => {
+      try {
+        const response = await getUserLogin();
+        const user = response.data;
+        setUserData(user);
+      } catch (error) {
+        console.error("Gagal mengambil data user:", error);
+      }
+    }
+    fetchdata();
+  }, []);
   return (
     <aside className="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl shadow-lg w-full max-w-sm">
       {/* Profil Pengguna */}
       <div className="flex items-center space-x-4 mb-8">
         <div className="relative">
-          <img
-            className="h-20 w-20 rounded-full object-cover shadow-md border-4 border-white"
-            src="https://via.placeholder.com/64"
-            alt="User profile"
-          />
+        <img
+          className="h-20 w-20 rounded-full object-cover shadow-md border-4 border-white"
+          src={userData ? getImageUrl(userData.img) : placeholderImage}
+          alt="User profile"
+        />
           <span className="absolute bottom-0 right-0 h-4 w-4 bg-green-400 border-2 border-white rounded-full" />
         </div>
         <div>
-          <p className="text-xl font-bold text-gray-900">John Doe</p>
+          <p className="text-xl font-bold text-gray-900">{userData?.nama || "User"}</p>
           <p className="text-gray-500">Selamat datang kembali!</p>
         </div>
       </div>

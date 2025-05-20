@@ -1,13 +1,16 @@
 import { ShoppingCart } from "lucide-react";
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, } from "react";
 import Pagination from "./Pagination";
-import { getProduks } from "../../service/api";
+import { getProduks, getImageUrl } from "../../service/api";
+import { useNavigate } from "react-router-dom";
+
 
 function Card({ judul, jumlah, isi, pagination = false }) {
   const [produk, setProduk] = useState([]);  // Inisialisasi sebagai array kosong
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   // Define placeholder URL as a constant for consistency
   const PLACEHOLDER_IMAGE = "https://marketplace.apg-wi.com/imgs/media.images/75035/75035.widea.jpg";
@@ -42,14 +45,12 @@ function Card({ judul, jumlah, isi, pagination = false }) {
     : safeData.slice(0, jumlah);
 
   // Fungsi untuk membangun URL gambar
-  const getImageUrl = (imageFileName) => {
-    if (!imageFileName) return PLACEHOLDER_IMAGE;
-    return `http://localhost:8000/uploads/products/${imageFileName}/1.jpg`;
-  };
 
   if (loading) {
     return <div className="text-center py-10">Loading...</div>;
   }
+
+
 
   return (
     <div className="container mx-auto max-w-7xl px-4 min-h-[440px]">
@@ -73,23 +74,24 @@ function Card({ judul, jumlah, isi, pagination = false }) {
             >
               <div className="p-4">
                 <img
-                  src={getImageUrl(products.image)}
+                  src={products.fullImageUrl || getImageUrl(products.image)}
                   alt={products.nama_produk || "Product"}
                   className="w-full h-36 sm:h-48 object-cover"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = PLACEHOLDER_IMAGE; // Using the same placeholder URL
+                    e.target.src = PLACEHOLDER_IMAGE;
                   }}
                 />
               </div>
 
               <div className="p-4 flex flex-col justify-between h-[150px]">
-                <a
-                  href={`/detail/${products.id}`}
-                  className="text-lg font-semibold text-gray-800 line-clamp-2"
+                <div
+                  key={index}
+                  onClick={()=> navigate(`/detail/${products.ID}`)}
+                  className="text-lg font-semibold text-gray-800 line-clamp-2 cursor-pointer"
                 >
                   {products.nama_produk || "Produk"}
-                </a>
+                </div>
                 <span className="text-base font-bold text-gray-900 pt-5">
                   {typeof products.harga === 'number' 
                     ? `Rp ${products.harga.toLocaleString('id-ID')}` 

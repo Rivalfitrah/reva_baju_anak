@@ -135,6 +135,12 @@ function UserProfil() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
           <div>
+            <p className="text-sm text-gray-500 font-medium mb-1">Kota</p>
+            <p className="text-base text-gray-900">
+              {userData.kota || "Belum diisi"}
+            </p>
+          </div>
+          <div>
             <p className="text-sm text-gray-500 font-medium mb-1">Provinsi</p>
             <p className="text-base text-gray-900">
               {userData.provinsi || "Belum diisi"}
@@ -146,7 +152,7 @@ function UserProfil() {
               {userData.kodepos || "Belum diisi"}
             </p>
           </div>
-          <div className="md:col-span-2">
+          <div>
             <p className="text-sm text-gray-500 font-medium mb-1">Alamat</p>
             <p className="text-base text-gray-900">
               {userData.alamat || "Belum diisi"}

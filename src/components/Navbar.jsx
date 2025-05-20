@@ -5,22 +5,71 @@ import { NavLink } from "react-router-dom";
 import "../App.css";
 import SearchResultItem from "./input/SearchResult";
 import ProfileMenu from "./akun/ProfilMenu";
+import { getProduks } from "../service/api";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [openmenu, setOpenMenu] = useState(false);
 
+  // State untuk keyword pencarian
+  const [keyword, setKeyword] = useState("");
+  const [searchResults, setSearchResults] = useState([]); // Gunakan ini untuk hasil pencarian
+  const [notfound, setNotFound] = useState(false);
+  const [allProducts, setAllProducts] = useState([]); // State untuk menyimpan semua produk
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsLoggedIn(!!token); // true kalau token ada
   }, []);
 
-  // const handleLogout = () => {
-  //   localStorage.removeItem("token");
-  //   setIsLoggedIn(false);
-  //   window.location.href = "/login"; 
-  // };
+  // Fetch semua produk
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await getProduks();
+        // Pastikan data adalah array produk
+        if (response && response.products) {
+          setAllProducts(response.products);
+          console.log("Products loaded:", response.products.length);
+        } else {
+          console.error("Invalid product data format:", response);
+        }
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    
+    fetchProducts();
+  }, []);
+
+  // Filter produk berdasarkan keyword
+  useEffect(() => {
+    if (keyword.trim() === "") {
+      setSearchResults([]); // Gunakan setSearchResults, bukan setResults
+      setNotFound(false);
+      return;
+    }
+
+    console.log("Searching for:", keyword);
+    console.log("Products available:", allProducts.length);
+    
+    const filtered = allProducts.filter(product =>
+      // Pastikan nama_produk ada sebelum mencoba toLowerCase()
+      product.nama_produk && 
+      product.nama_produk.toLowerCase().includes(keyword.toLowerCase())
+    );
+
+    console.log("Search results:", filtered.length);
+    
+    if (filtered.length > 0) {
+      setSearchResults(filtered); // Gunakan setSearchResults, bukan setResults
+      setNotFound(false);
+    } else {
+      setSearchResults([]); // Gunakan setSearchResults, bukan setResults
+      setNotFound(true);
+    }
+  }, [keyword, allProducts]);
 
   return (
     <>
@@ -51,7 +100,7 @@ function Navbar() {
               </NavLink>
 
               <NavLink
-                to="/about"
+                to="https://aboutus-opal.vercel.app/about"
                 className={({ isActive }) =>
                   isActive
                     ? "text-lg text-jambu font-semibold"
@@ -79,23 +128,29 @@ function Navbar() {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500" />
                 <input
                   type="text"
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
                   placeholder="Search..."
                   className="w-full pl-10 pr-4 py-2 border border-slate-600 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-jambu focus:border-transparent"
                 />
-
-                {/* Contoh hasil pencarian */}
-                {/* <div className="absolute z-50 bg-white shadow-lg rounded-lg mt-2 w-full max-h-72 overflow-y-auto">
-    <SearchResultItem
-      image="/images/1.webp"
-      name="Baju Bunga"
-      price={50000}
-    />
-    <SearchResultItem
-      image="/images/2.webp"
-      name="Celana Polos"
-      price={75000}
-    />
-  </div> */}
+                
+                {keyword && (
+                  <div className="absolute bg-white shadow-lg mt-2 rounded-lg w-full z-10 max-h-64 overflow-y-auto">
+                    {searchResults.length > 0 ? (
+                      searchResults.map((product) => (
+                        <SearchResultItem
+                          key={product.ID || `product-${Math.random()}`} // Pastikan key selalu unik
+                          image={product.image}
+                          name={product.nama_produk}
+                          price={product.harga}
+                          id={product.ID}
+                        />
+                      ))
+                    ) : notfound ? (
+                      <p className="p-4 text-center text-sm text-gray-500">Produk tidak ditemukan</p>
+                    ) : null}
+                  </div>
+                )}
               </div>
 
               <button onClick={() => (window.location.href = "/keranjang")}>
@@ -112,15 +167,15 @@ function Navbar() {
                   </button>
                 ) : (
                   // Tombol Ikon User
-                <div className="relative">
-                  <button onClick={() => setOpenMenu(!openmenu)}>
-                    <User size={30} />
-                  </button>
+                  <div className="relative">
+                    <button onClick={() => setOpenMenu(!openmenu)}>
+                      <User size={30} />
+                    </button>
 
-                  {openmenu && (
-                    <ProfileMenu onClose={() => setOpenMenu(false)} />
-                  )}
-                </div>
+                    {openmenu && (
+                      <ProfileMenu onClose={() => setOpenMenu(false)} />
+                    )}
+                  </div>
                 )}
               </div>
 
@@ -172,9 +227,30 @@ function Navbar() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500" />
               <input
                 type="text"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
                 placeholder="Search..."
                 className="w-full pl-10 pr-4 py-2 border border-slate-600 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-jambu focus:border-transparent"
               />
+              
+              {/* Menu mobile search results */}
+              {keyword && (
+                <div className="absolute bg-white shadow-lg mt-2 rounded-lg w-full z-10 max-h-64 overflow-y-auto">
+                  {searchResults.length > 0 ? (
+                    searchResults.map((product) => (
+                      <SearchResultItem
+                        key={product.id || `mobile-product-${Math.random()}`}
+                        image={product.image}
+                        name={product.nama_produk}
+                        price={product.harga}
+                        id={product.id}
+                      />
+                    ))
+                  ) : notfound ? (
+                    <p className="p-4 text-center text-sm text-gray-500">Produk tidak ditemukan</p>
+                  ) : null}
+                </div>
+              )}
             </div>
           </div>
         )}

@@ -1,23 +1,46 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react'
-import { getorder } from '../../service/api'
+import React, { useEffect, useState } from 'react';
+import { getorder } from '../../service/api';
+import Pagination from '../product/Pagination';
 
 function History() {
-  const [orders, setOrders] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [orders, setOrders] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 5;
 
   useEffect(() => {
     const fetchdata = async () => {
       try {
         const data = await getorder();
-        setOrders(data.data)
-        setLoading(true)
+        const allOrderItems = [];
+
+        (data.data || []).forEach(order => {
+          if (Array.isArray(order.order_items)) {
+            order.order_items.forEach(item => {
+              allOrderItems.push({
+                ...item,
+                order_id: order.order_id,
+                created_at: order.created_at,
+                invoice: order.invoice
+              });
+            });
+          }
+        });
+
+        setOrders(allOrderItems);
       } catch (error) {
-        console.error("Gagal mengambil data:", error)
+        console.error("Gagal mengambil data:", error);
       }
     };
+
     fetchdata();
-  }, [])
+  }, []);
+
+  // Pagination
+  const totalPages = Math.ceil(orders.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedOrders = orders.slice(startIndex, endIndex);
 
   return (
     <div className='bg-white shadow-md rounded-lg p-4'>
@@ -35,37 +58,42 @@ function History() {
           </tr>
         </thead>
         <tbody>
-  {orders.length > 0 ? (
-    orders.map((order, index) => (
-      order.order_items.map((item, itemIndex) => (
-        <tr key={`${order.order_id}-${itemIndex}`} className="hover:bg-gray-50">
-          <td className="p-3 border">{item.produk.name}</td>
-          <td className="p-3 border">{new Date(order.created_at).toLocaleDateString()}</td>
-          <td className="p-3 border">{item.quantity}</td>
-          <td className="p-3 border">Rp {item.subtotal.toLocaleString()}</td>
-          <td className="p-3 border">{order.invoice}</td>
-          <td className="p-3 border">order.</td>
-          <td className="p-3 border">
-            <button className="bg-pink-500 text-white px-3 py-1 rounded hover:bg-pink-600">
-              Lihat
-            </button>
-          </td>
-        </tr>
-      ))
-    ))
-  ) : (
-    <tr>
-      <td colSpan="7" className="text-center p-4 text-gray-500">
-        Belum ada pesanan.
-      </td>
-    </tr>
-  )}
-</tbody>
+          {displayedOrders.length > 0 ? (
+            displayedOrders.map((item, index) => (
+              <tr key={`${item.order_id}-${index}`} className="hover:bg-gray-50">
+                <td className="p-3 border">{item.produk?.name || "Tidak tersedia"}</td>
+                <td className="p-3 border">{new Date(item.created_at).toLocaleDateString()}</td>
+                <td className="p-3 border">{item.quantity}</td>
+                <td className="p-3 border">Rp {item.subtotal.toLocaleString()}</td>
+                <td className="p-3 border">{item.invoice}</td>
+                <td className="p-3 border">-</td>
+                <td className="p-3 border">
+                  <button className="bg-pink-500 text-white px-3 py-1 rounded hover:bg-pink-600">
+                    Lihat
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="7" className="text-center p-4 text-gray-500">
+                Belum ada pesanan.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
 
-        </table>
-
+      {/* Pagination */}
+      {orders.length > itemsPerPage && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+      )}
     </div>
-  )
+  );
 }
 
-export default History
+export default History;

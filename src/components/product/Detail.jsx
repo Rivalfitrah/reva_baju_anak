@@ -1,6 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { getprodukById, getImageUrl } from "../../service/api";
+import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { get } from "react-hook-form";
 
 function Detail({children}) {
+  const PLACEHOLDER_IMAGE = "https://marketplace.apg-wi.com/imgs/media.images/75035/75035.widea.jpg";
+
+  const {id} = useParams();
+  const [produk, setProduk] = useState({});
+  const [loading, setLoading] = useState(true); 
+
+useEffect(() => {
+  const fetchproduk = async () => {
+    try {
+      const response = await getprodukById(id);
+      setProduk(response.product); // ambil langsung objek produk di dalamnya
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching product:", error);
+      setLoading(false);
+    }
+  };
+  fetchproduk();
+}, [id]);
+
+
+  if (loading) {
+    return <div className="text-center py-10">Loading...</div>;
+  }
+  if (!produk) {
+    return <div className="text-center py-10">Produk tidak ditemukan</div>;
+  }
+
+
   return (
     <>
       <main className="container mx-auto max-w-7xl px-4 p-6">
@@ -10,16 +43,20 @@ function Detail({children}) {
               Produk 
             </a>
             <span className="mx-2">/</span>
-            <span className="text-gray-900">Baju Bunga</span>
+            <span className="text-gray-900">{produk.nama_produk}</span>
           </nav>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* <!-- Gambar Produk --> */}
             <div>
               <img
-                src="images/1.webp"
-                alt="Dress Anak"
-                className="w-full rounded-lg shadow-md"
+                src={getImageUrl(produk.image)}
+                alt={produk.nama_produk}
+                className="w-90 h-90 object-cover rounded-lg shadow-md"
+                  onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = PLACEHOLDER_IMAGE;
+                }}
               />
               <div className="flex space-x-2 mt-4">
                 <img
@@ -34,26 +71,18 @@ function Detail({children}) {
 
             {/* <!-- Deskripsi Produk --> */}
             <div>
-              <h2 className="text-2xl font-bold">Dress Anak</h2>
+              <h2 className="text-2xl font-bold">{produk.nama_produk}</h2>
+              <p className="text-sm text-gray-500 mt-2">harga</p>
               <p className="text-lg text-gray-700 font-semibold mt-2">
-                Rp. 50.000
+                    {typeof produk.harga === 'number'
+                    ? `Rp ${produk.harga.toLocaleString('id-ID')}`
+                    : produk.harga || "Rp 0"}
               </p>
-
-              {/* <!-- Warna --> */}
-              <div className="mt-4">
-                <p className="text-sm text-gray-600">Color</p>
-                <div className="flex space-x-2 mt-1">
-                  <div className="w-8 h-8 bg-gray-300 rounded-full cursor-pointer"></div>
-                  <div className="w-8 h-8 bg-gray-400 rounded-full cursor-pointer"></div>
-                  <div className="w-8 h-8 bg-black rounded-full cursor-pointer"></div>
-                  <div className="w-8 h-8 bg-green-200 rounded-full cursor-pointer"></div>
-                  <div className="w-8 h-8 bg-purple-200 rounded-full cursor-pointer"></div>
-                </div>
-              </div>
 
               {/* <!-- Ukuran --> */}
               <div className="mt-4">
                 <p className="text-sm text-gray-600">Size</p>
+                <p className="text-sm text-gray-600">{produk.tag}</p>
                 <div className="flex space-x-2 mt-1">
                   <button className="px-4 py-2 bg-pink-300 text-white rounded-lg hover:text-pink-500">
                     XS
@@ -103,10 +132,7 @@ function Detail({children}) {
         <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg mt-8">
           <h2 className="text-xl font-bold">Details</h2>
           <p className="text-gray-700 mt-2">
-            Baju Bunga menggunakan bahan katun dengan kualitas premium yang
-            dapat membuat anak anda nyaman ketika menggunakan produk ini. Produk
-            ini memiliki berbagai jenis warna dan ukuran. Cocok digunakan untuk
-            pergi bermain atau pergi ke acara pesta.
+            {produk.deskripsi}
           </p>
 
           {/* <!-- Review --> */}
