@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getprodukById, getImageUrl } from "../../service/api";
 import { useParams } from "react-router-dom";
 import { addToCart } from "../../service/api";
-import Komentar from "../komentar/komentar";
+import Komentar from "../komentar/Komentar";
 import ReviewInput from "../komentar/ReviewInput";
 import Swal from "sweetalert2";
 
