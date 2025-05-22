@@ -200,7 +200,7 @@ const handleOrderChat = async () => {
                 value={shippingCost}
                 onChange={(e) => setShippingCost(Number(e.target.value))}
               >
-                <option value="" disabled hidden>Pilih</option>
+                <option value="">Pilih pengiriman</option>
                 <option value="10000">Standard - Rp10.000</option>
                 <option value="25000">Express - Rp25.000</option>
               </select>
