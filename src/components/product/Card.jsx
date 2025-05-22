@@ -97,7 +97,7 @@ const displayedProduk = pagination
                 <img
                   src={products.fullImageUrl || getImageUrl(products.image)}
                   alt={products.nama_produk || "Product"}
-                  className="w-full h-36 sm:h-48 object-cover"
+                  className="w-full h-36 sm:h-48 object-cover hover:scale-105 transition-transform duration-300 ease-in-out"
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = PLACEHOLDER_IMAGE;

@@ -12,7 +12,7 @@ function ProductDetail() {
       <Navbar />
       <div className="min-h-screen">
         <Detail>
-          <Card judul="Related Products" jumlah={4} isi={4} />
+          <Card judul="Produk Terkait" jumlah={4} isi={4} />
         </Detail>
       </div>
       <Footer />

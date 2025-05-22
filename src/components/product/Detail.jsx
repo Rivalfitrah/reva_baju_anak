@@ -312,7 +312,6 @@ useEffect(() => {
 
         {/* <!-- Produk Terkait --> */}
         <section className="mt-8">
-          <h3 className="text-xl font-semibold">Produk Terkait</h3>
 
           <div className="mt-4">
             {children}

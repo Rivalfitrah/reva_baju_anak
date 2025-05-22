@@ -102,7 +102,6 @@ function Navbar() {
               <a
                 href="https://aboutus-opal.vercel.app/"
                 className="text-lg hover:text-jambu"
-                target="_blank" // jika mau buka tab baru
                 rel="noopener noreferrer"
               >
                 Tentang Kami
@@ -199,8 +198,8 @@ function Navbar() {
               Beranda
             </NavLink>
 
-            <NavLink
-              to="/about"
+            <a
+              href="https://aboutus-opal.vercel.app/"
               className={({ isActive }) =>
                 isActive
                   ? "text-lg text-jambu font-semibold"
@@ -208,7 +207,7 @@ function Navbar() {
               }
             >
               Tentang Kami
-            </NavLink>
+            </a>
 
             <NavLink
               to="/product"

@@ -10,6 +10,7 @@ import KeranjangPage from "./pages/Keranjang";
 import ProductDetail from "./pages/ProductDetail";
 import CreateAkun from "./pages/CreateAkun";
 import CheckoutSteps from "./components/Checkoutsteps";
+import ProtectedRoute from "./ProtectedRouter";
 
 const AppRoute = () => {
   return (
@@ -20,7 +21,9 @@ const AppRoute = () => {
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/product" element={<ProductPage />} />
+        <Route element={<ProtectedRoute />}>
         <Route path="/profil" element={<ProfilUserPage />} />
+        </Route>
         <Route path="/history" element={<HistoryPage />} />
         <Route path="/keranjang" element={<KeranjangPage />} />
         <Route path="/detail/:id" element={<ProductDetail />} />

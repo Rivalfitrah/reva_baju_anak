@@ -15,7 +15,7 @@ function HomePage() {
         showbutton={false}
       />
       <Card judul="Produk Terbaru" jumlah={4} isi={4} />
-      <HeroSection imagesrc="/images/banner.svg" showbutton={false} />
+      <HeroSection imagesrc="/images/banner1.png" showbutton={false} />
       <div className="pt-10 md:pt-25">
         <Card judul="Rekomendasi Produk" jumlah={12} isi={4} />
       </div>

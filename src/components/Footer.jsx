@@ -57,10 +57,10 @@ function Footer() {
           <div className="w-full sm:w-3/4 md:w-1/3 flex flex-col items-center md:items-end">
             <h3 className="text-lg font-semibold mb-3">Follow Us</h3>
             <div className="flex justify-center md:justify-start space-x-4">
-              <a href="#" className="hover:text-jambu transition">
+              <a href="https://instagram.com/revabajuanak" className="hover:text-jambu transition">
                 <Instagram size={24} />
               </a>
-              <a href="#" className="hover:text-jambu transition">
+              <a href="https://www.tiktok.com/@reva.bajuanak?_t=zs-8sq66ku1fjn&_r=1" className="hover:text-jambu transition">
                 <img
                   src="/icon/tiktok.svg"
                   alt="TikTok"
