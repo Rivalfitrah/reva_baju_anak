@@ -3,11 +3,29 @@ import { Link } from "react-router";
 import { loginUser } from "../../service/api";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { z } from "zod";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
   const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
+
+  // validasi zod
+  const loginformschema = z.object({
+    email: z.string().email("Email tidak valid"),
+    password: z.string().min(8, "Password minimal 8 karakter"),
+  })
+
+  const validateInput = (field, value) => {
+  try {
+    loginformschema.pick({ [field]: true }).parse({ [field]: value });
+    setErrors((prev) => ({ ...prev, [field]: null }));
+  } catch (err) {
+    setErrors((prev) => ({ ...prev, [field]: err.errors[0].message }));
+  }
+};
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -53,9 +71,12 @@ function Login() {
               placeholder="email"
               value={email}
               className="block w-full p-2 border border-gray-300 rounded-md mt-1"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {setEmail(e.target.value)
+              validateInput("email", e.target.value)
+              }}
               required
             />
+          {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
           </label>
 
           {/* Input Password */}
@@ -66,9 +87,12 @@ function Login() {
               placeholder="Password"
               value={password}
               className="block w-full p-2 border border-gray-300 rounded-md mt-1"
-              onChange={(e) => setpassword(e.target.value)}
+              onChange={(e) => {setpassword(e.target.value)
+              validateInput("password", e.target.value)
+              }}
               required
             />
+            {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
           </label>
 
           <a href="" className=" flex justify-end">
