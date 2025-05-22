@@ -6,7 +6,7 @@ import { getProduks, getImageUrl } from "../../service/api";
 import { useNavigate } from "react-router-dom";
 
 
-function Card({ judul, jumlah, isi, pagination = false }) {
+function Card({ filters = { kategori: "semua", ukuran: [] }, judul, jumlah, isi, pagination = false }) {
   const [produk, setProduk] = useState([]);  // Inisialisasi sebagai array kosong
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -35,14 +35,34 @@ function Card({ judul, jumlah, isi, pagination = false }) {
   // Pastikan produk adalah array sebelum menggunakan slice
   const safeData = Array.isArray(produk) ? produk : [];
   
-  // hitung produk yang ditampilkan
-  const itemsPerPage = pagination ? jumlah : safeData.length;
-  const totalPages = Math.ceil(safeData.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const displayedProduk = pagination 
-    ? safeData.slice(startIndex, endIndex)
-    : safeData.slice(0, jumlah);
+// hitung produk yang ditampilkan
+const itemsPerPage = pagination ? jumlah : safeData.length;
+const startIndex = (currentPage - 1) * itemsPerPage;
+const endIndex = startIndex + itemsPerPage;
+
+// Pastikan filters memiliki struktur yang diharapkan
+const safeFilters = filters || { kategori: "semua", ukuran: []};
+
+// filtering berdasarkan filters
+const filteredProduk = safeData.filter((item) => {
+  const matchKategori =
+    !safeFilters.kategori || safeFilters.kategori === "semua" ||
+    item.kategori?.toLowerCase() === safeFilters.kategori.toLowerCase();
+
+  const matchUkuran =
+    !safeFilters.ukuran || safeFilters.ukuran.length === 0 ||
+    item.ukurans?.some((ukuran) =>
+      safeFilters.ukuran.includes(ukuran.nama)
+    );
+
+  return matchKategori && matchUkuran;
+});
+
+const totalPages = Math.ceil(filteredProduk.length / itemsPerPage);
+const displayedProduk = pagination
+  ? filteredProduk.slice(startIndex, endIndex)
+  : filteredProduk.slice(0, jumlah);
+
 
   // Fungsi untuk membangun URL gambar
 
@@ -70,7 +90,8 @@ function Card({ judul, jumlah, isi, pagination = false }) {
           displayedProduk.map((products, index) => (
             <div
               key={index}
-              className="bg-white shadow-md rounded-lg overflow-hidden"
+              onClick={()=> navigate(`/detail/${products.id}`)}
+              className="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer"
             >
               <div className="p-4">
                 <img
@@ -87,7 +108,6 @@ function Card({ judul, jumlah, isi, pagination = false }) {
               <div className="p-4 flex flex-col justify-between h-[150px]">
                 <div
                   key={index}
-                  onClick={()=> navigate(`/detail/${products.ID}`)}
                   className="text-lg font-semibold text-gray-800 line-clamp-2 cursor-pointer"
                 >
                   {products.nama_produk || "Produk"}
@@ -99,9 +119,6 @@ function Card({ judul, jumlah, isi, pagination = false }) {
                 </span>
                 <div className="flex justify-between items-center mt-2">
                   <span className="text-base">⭐4.5</span>
-                  <button className="bg-gradient-to-r from-satu to-pink text-black px-5 sm:px-10 py-2 rounded-xl">
-                    <ShoppingCart size={20} />
-                  </button>
                 </div>
               </div>
             </div>

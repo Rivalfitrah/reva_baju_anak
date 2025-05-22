@@ -99,18 +99,16 @@ function Navbar() {
                 Beranda
               </NavLink>
 
-              <NavLink
-                to="https://aboutus-opal.vercel.app/about"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-lg text-jambu font-semibold"
-                    : "text-lg hover:text-jambu"
-                }
+              <a
+                href="https://aboutus-opal.vercel.app/"
+                className="text-lg hover:text-jambu"
+                target="_blank" // jika mau buka tab baru
+                rel="noopener noreferrer"
               >
                 Tentang Kami
-              </NavLink>
+              </a>
 
-              <NavLink
+               <NavLink
                 to="/product"
                 className={({ isActive }) =>
                   isActive
@@ -139,11 +137,11 @@ function Navbar() {
                     {searchResults.length > 0 ? (
                       searchResults.map((product) => (
                         <SearchResultItem
-                          key={product.ID || `product-${Math.random()}`} // Pastikan key selalu unik
+                          key={product.id || `product-${Math.random()}`} // Pastikan key selalu unik
                           image={product.image}
                           name={product.nama_produk}
                           price={product.harga}
-                          id={product.ID}
+                          id={product.id}
                         />
                       ))
                     ) : notfound ? (

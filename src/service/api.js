@@ -152,8 +152,6 @@ export function getImageUrl(imagePath) {
 }
 
 
-
-
 // history
 export async function getorder() {
     try {
@@ -201,4 +199,87 @@ export async function edituser(nama, telepon, alamat, kota, kodepos, provinsi, i
         console.error("gagal edit user:", error)
         throw error
     }
+}
+
+// cart
+export async function getcartdetail() {
+    try {
+        const token = localStorage.getItem("token")
+        const response = await axios.get(`${api}/cartdetail`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch (error) {
+        console.error("gagal ambil cart:", error)
+        throw error
+    }
+}
+
+// add to cart
+export async function addToCart( produk_id, quantity, ukuran_id ) {
+  try {
+
+    const token = localStorage.getItem("token")
+
+    if(!token) {
+        throw new Error("Token tidak tersedia. Silakan login terlebih dahulu.")
+    }
+    const response = await axios.post(
+      `${api}/addcart`,
+      {
+        produk_id,
+        quantity,
+        ukuran_id
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Gagal menambahkan ke keranjang:", error);
+    throw error;
+  }
+}
+
+// delete cart
+export async function deletecartById(id) {
+    try {
+        const token = localStorage.getItem("token")
+        const response = await axios.delete(`${api}/deletecart/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch (error) {
+        console.error("gagal hapus cart:", error)
+        throw error
+    }
+}
+
+export async function order (items) {
+try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(
+      `${api}/orders`,
+      { items },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Gagal mengirim order via chat:", error);
+    throw error;
+  }
 }
