@@ -105,7 +105,7 @@ const displayedProduk = pagination
                 />
               </div>
 
-              <div className="p-4 flex flex-col justify-between h-[150px]">
+              <div className="p-4 flex flex-col justify-between h-[100px]">
                 <div
                   key={index}
                   className="text-lg font-semibold text-gray-800 line-clamp-2 cursor-pointer"
@@ -117,9 +117,6 @@ const displayedProduk = pagination
                     ? `Rp ${products.harga.toLocaleString('id-ID')}` 
                     : products.harga || "Rp 0"}
                 </span>
-                <div className="flex justify-between items-center mt-2">
-                  <span className="text-base">⭐4.5</span>
-                </div>
               </div>
             </div>
           ))

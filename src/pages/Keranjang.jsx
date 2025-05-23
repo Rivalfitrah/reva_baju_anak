@@ -11,7 +11,6 @@ const KeranjangPage = () => {
     <ShoppingCart />
     <Footer />
     </>
-    
   )
 };
 

@@ -13,7 +13,7 @@ function ProfilUserPage() {
       <br />
       <br />
       <br />
-      <div className="flex gap-2 container mx-auto max-w-7xl px-4">
+      <div className="flex flex-col md:flex-row gap-4 container mx-auto max-w-7xl px-4">
         <SidebarProfile />
         <UserProfil />
       </div>

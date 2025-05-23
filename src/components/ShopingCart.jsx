@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getcartdetail, deletecartById, order } from '../service/api';
+import { getcartdetail, deletecartById, order, updatecartid } from '../service/api';
 import { Trash2 } from 'lucide-react';
 import Swal from 'sweetalert2';
 import ModalRedirect from './ModalRedirect';
@@ -64,24 +64,44 @@ const handleDeleteItem = async (id) => {
     fetchCart();
   }, []);
 
-  const handleIncrease = (id) => {
-  setCartItems(prevItems =>
-    prevItems.map(item =>
-      item.id === id
-        ? { ...item, quantity: item.quantity + 1, subtotal: (item.quantity + 1) * item.harga }
-        : item
-    )
-  );
+const handleIncrease = async (id) => {
+  const item = cartItems.find((item) => item.id === id);
+  if (!item) return;
+
+  const newQuantity = item.quantity + 1;
+
+  try {
+    await updatecartid(id, newQuantity);
+    setCartItems(prevItems =>
+      prevItems.map(item =>
+        item.id === id
+          ? { ...item, quantity: newQuantity, subtotal: newQuantity * item.harga }
+          : item
+      )
+    );
+  } catch (error) {
+    Swal.fire("Error", "Gagal memperbarui jumlah produk", "error");
+  }
 };
 
-const handleDecrease = (id) => {
-  setCartItems(prevItems =>
-    prevItems.map(item =>
-      item.id === id && item.quantity > 1
-        ? { ...item, quantity: item.quantity - 1, subtotal: (item.quantity - 1) * item.harga }
-        : item
-    )
-  );
+const handleDecrease = async (id) => {
+  const item = cartItems.find((item) => item.id === id);
+  if (!item || item.quantity <= 1) return;
+
+  const newQuantity = item.quantity - 1;
+
+  try {
+    await updatecartid(id, newQuantity);
+    setCartItems(prevItems =>
+      prevItems.map(item =>
+        item.id === id
+          ? { ...item, quantity: newQuantity, subtotal: newQuantity * item.harga }
+          : item
+      )
+    );
+  } catch (error) {
+    Swal.fire("Error", "Gagal memperbarui jumlah produk", "error");
+  }
 };
 
 const handleOrderChat = async () => {
@@ -146,6 +166,7 @@ const handleOrderChat = async () => {
                 <div className="flex items-center p-1">
                   <img 
                     alt={item.nama_produk}
+                    src={`http://localhost:8000/uploads/products/${item.produk_id}/1.jpg`}
                     className="h-16 w-16 object-cover rounded mr-4"
                   />
                   <div className="p-3">
@@ -193,18 +214,6 @@ const handleOrderChat = async () => {
                 </span>
              </div>
 
-            <div className="flex justify-between mb-4 items-center">
-              <span className="font-medium">Estimasi Ongkir</span>
-              <select
-                className="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                value={shippingCost}
-                onChange={(e) => setShippingCost(Number(e.target.value))}
-              >
-                <option value="">Pilih pengiriman</option>
-                <option value="10000">Standard - Rp10.000</option>
-                <option value="25000">Express - Rp25.000</option>
-              </select>
-            </div>
 
             <div className="flex justify-between mb-4">
               <span className="font-bold">Total</span>

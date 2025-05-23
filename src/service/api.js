@@ -97,7 +97,7 @@ export async function getUserLogin() {
 // get produk
 export async function getProduks() {
     try {
-        const response = await axios.get(`${api}/products`)
+        const response = await axios.get(`${api}/productss`)
         return response.data
     } catch (error) {
         console.error("gagal ambil produk:", error)
@@ -108,7 +108,7 @@ export async function getProduks() {
 // get produk by id
 export async function getprodukById(id) {
     try {
-        const response = await axios.get(`${api}/products/${id}`)
+        const response = await axios.get(`${api}/productss/${id}`)
         return response.data
         console.log(response.data)
     } catch (error) {
@@ -282,4 +282,51 @@ try {
     console.error("Gagal mengirim order via chat:", error);
     throw error;
   }
+}
+
+// ulasan
+export async function postulasan (id, rating, ulasan) {
+    try {
+        const token = localStorage.getItem("token")
+        const response = await axios.post(`${api}/ulasan/${id}`, {
+            rating,
+            ulasan
+        }, {
+            headers: {
+                Authorization: ` Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch (error) {
+        console.error("gagal post ulasan:", error)
+        throw error
+    }
+}
+
+export async function getUlasanByProdukId (id) {
+    try {
+        const response = await axios.get( ` ${api}/ulasan/${id}`)
+        return response.data
+    } catch (error) {
+        console.error("gagal ambil ulasan:", error)
+        throw error
+    }
+}
+
+// update id
+export async function updatecartid (id, quantity) {
+    try {
+        const token = localStorage.getItem("token")
+        const response = await axios.put(` ${api}/updatecartdetail/${id}`, {
+            quantity
+        }, {
+            headers: {
+                Authorization: ` Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch (error) {
+        console.error("gagal update cart:", error)
+        throw error
+    }
 }

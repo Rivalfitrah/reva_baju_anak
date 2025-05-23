@@ -90,7 +90,7 @@ function UserProfil() {
         <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">
           Informasi Profil
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4 sm:gap-x-6 sm:gap-y-6">
           <div>
             <p className="text-sm text-gray-500 font-medium mb-1">Nama</p>
             <p className="text-base text-gray-900">
@@ -133,7 +133,7 @@ function UserProfil() {
         <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">
           Informasi Lokasi
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4 sm:gap-x-6 sm:gap-y-6">
           <div>
             <p className="text-sm text-gray-500 font-medium mb-1">Kota</p>
             <p className="text-base text-gray-900">

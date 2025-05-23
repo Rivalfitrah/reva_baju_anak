@@ -13,8 +13,6 @@ function SelectKategori({ filters = { kategori: "semua", ukuran: [], harga: "all
     { value: "semua", label: "Semua Kategori" },
     { value: "Baju", label: "Baju" },
     { value: "Celana", label: "Celana" },
-    { value: "Sepatu", label: "Sepatu" },
-    { value: "Tas", label: "Tas" },
     { value: "Jaket", label: "Jaket" },
     { value: "Baju bayi", label: "Baju Bayi" },
   ];
