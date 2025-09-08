@@ -60,7 +60,7 @@ function ReviewInput({ produkId, onReviewSubmitted }) { // Tambahkan produkId da
       Swal.fire({
         icon: 'error',
         title: 'Gagal Mengirim Ulasan',
-        text: error.response?.data?.message || 'Terjadi kesalahan. Silakan coba lagi.',
+        text: error.response?.data?.message || 'Anda belum membeli barang. Silakan membeli terlebih dahulu.',
       });
     }
   };

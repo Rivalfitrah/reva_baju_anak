@@ -49,14 +49,19 @@ const filteredProduk = safeData.filter((item) => {
     !safeFilters.kategori || safeFilters.kategori === "semua" ||
     item.kategori?.toLowerCase() === safeFilters.kategori.toLowerCase();
 
-  const matchUkuran =
-    !safeFilters.ukuran || safeFilters.ukuran.length === 0 ||
-    item.ukurans?.some((ukuran) =>
-      safeFilters.ukuran.includes(ukuran.nama)
-    );
+const matchUkuran =
+  !safeFilters.ukuran || safeFilters.ukuran.length === 0 ||
+  item.ukurans?.some((ukuran) =>
+    safeFilters.ukuran.map(u => u.toLowerCase()).includes(ukuran.nama.toLowerCase())
+  );
 
-  return matchKategori && matchUkuran;
+
+  const hasStock =
+    Array.isArray(item.ukurans) && item.ukurans.some((ukuran) => ukuran.stok > 0);
+
+  return matchKategori && matchUkuran && hasStock;
 });
+
 
 const totalPages = Math.ceil(filteredProduk.length / itemsPerPage);
 const displayedProduk = pagination

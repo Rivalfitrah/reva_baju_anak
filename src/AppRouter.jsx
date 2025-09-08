@@ -11,6 +11,8 @@ import ProductDetail from "./pages/ProductDetail";
 import CreateAkun from "./pages/CreateAkun";
 import CheckoutSteps from "./components/Checkoutsteps";
 import ProtectedRoute from "./ProtectedRouter";
+import Hello from "./pages/Hello"; 
+import "./App.css"; // Import your CSS file
 
 const AppRoute = () => {
   return (
@@ -29,6 +31,7 @@ const AppRoute = () => {
         <Route path="/detail/:id" element={<ProductDetail />} />
         <Route path="/tambah-akun" element={<CreateAkun />} />
         <Route path="/bayar" element={<CheckoutSteps />} />
+        <Route path="/tes" element={<Hello/>} />
       </Routes>
     </BrowserRouter>
   );

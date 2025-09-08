@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X, Filter, ChevronDown, ChevronUp, Check } from "lucide-react";
+import { getProduks } from "../service/api";
 
 function SelectKategori({ filters = { kategori: "semua", ukuran: [], harga: "all" }, setFilters = () => {} }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,22 +18,37 @@ function SelectKategori({ filters = { kategori: "semua", ukuran: [], harga: "all
     { value: "Baju bayi", label: "Baju Bayi" },
   ];
 
-  const ukuran = ["XS","S", "M", "L", "XL", "All Size"];
+  const [kategoriList, setKategoriList] = useState([
+  { value: "semua", label: "Semua Kategori" },
+]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setMobileView(window.innerWidth < 768);
-      if (window.innerWidth >= 768) {
-        setIsOpen(true);
-      } else {
-        setIsOpen(false);
-      }
-    };
 
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const ukurans = ["XS","S", "M", "L", "XL", "All Size"];
+
+useEffect(() => {
+  async function fetchKategori() {
+    try {
+      const data = await getProduks();
+      const kategoriSet = new Set(data.products.map((p) => p.kategori));
+      const kategoriArray = Array.from(kategoriSet)
+        .filter((k) => k && k.trim() !== "")
+        .map((k) => ({
+          value: k.toLowerCase(),
+          label: k.charAt(0).toUpperCase() + k.slice(1),
+        }));
+
+      setKategoriList([
+        { value: "semua", label: "Semua Kategori" },
+        ...kategoriArray,
+      ]);
+    } catch (err) {
+      console.error("Gagal fetch kategori:", err);
+    }
+  }
+
+  fetchKategori();
+}, []);
+
 
   const toggleSection = (section) => {
     setExpandedSections(prev => ({
@@ -160,36 +176,6 @@ function SelectKategori({ filters = { kategori: "semua", ukuran: [], harga: "all
                     {filters.kategori === item.value && <Check size={16} className="mr-2" />}
                     {item.label}
                   </label>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Ukuran section */}
-          <div className="mb-6">
-            <div 
-              className="flex justify-between items-center cursor-pointer"
-              onClick={() => toggleSection("ukuran")}
-            >
-              <h3 className="font-semibold text-gray-700">Ukuran</h3>
-              {expandedSections.ukuran ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-            </div>
-            
-            {expandedSections.ukuran && (
-              <div className="mt-2 flex flex-wrap gap-2">
-                {ukuran.map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => handleSizeSelect(size)}
-                    className={`px-3 py-1 rounded-md text-sm ${
-                      (size === "All Size" && filters.ukuran.length === 0) || 
-                      filters.ukuran.includes(size)
-                        ? "bg-pink-500 text-white"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                    }`}
-                  >
-                    {size}
-                  </button>
                 ))}
               </div>
             )}

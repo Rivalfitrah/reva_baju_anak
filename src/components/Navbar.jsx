@@ -150,14 +150,14 @@ function Navbar() {
                 )}
               </div>
 
-              <button onClick={() => (window.location.href = "/keranjang")}>
+              <button className="mx-2" onClick={() => (window.location.href = "/keranjang")}>
                 <ShoppingCart size={30} />
               </button>
               <div className="flex items-center gap-4">
                 {!isLoggedIn ? (
                   // Tombol Login
                   <button
-                    className="text-lg font-semibold border-2 border-jambu p-2 cursor-pointer rounded-lg"
+                    className="text-lg font-semibold border-2 border-jambu p-2 cursor-pointer rounded-lg ml-1"
                     onClick={() => (window.location.href = "/login")}
                   >
                     Login
