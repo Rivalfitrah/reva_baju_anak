@@ -71,15 +71,37 @@ function Detail({ children }) {
     fetchproduk();
   }, [id, fetchUlasan]);
 
-  const handleIncrease = () => setQuantity((prev) => prev + 1);
+  // Mendapatkan stok maksimum untuk ukuran yang dipilih
+  const getMaxStok = () => {
+    if (!produk.ukurans || !selectedUkuran) return null;
+    const ukuranObj = produk.ukurans.find((u) => u.nama === selectedUkuran);
+    return ukuranObj ? ukuranObj.stok : null;
+  };
+
+  const handleIncrease = () => {
+    const maxStok = getMaxStok();
+    if (maxStok !== null && quantity >= maxStok) return;
+    setQuantity((prev) => prev + 1);
+  };
   const handleDecrease = () => { if (quantity > 1) setQuantity((prev) => prev - 1); };
   const handleChange = (e) => {
     const value = parseInt(e.target.value, 10);
-    setQuantity(!isNaN(value) && value > 0 ? value : 1);
+    const maxStok = getMaxStok();
+    if (!isNaN(value) && value > 0) {
+      if (maxStok !== null && value > maxStok) {
+        setQuantity(maxStok);
+      } else {
+        setQuantity(value);
+      }
+    } else {
+      setQuantity(1);
+    }
   };
   const handleBlur = (e) => {
     const value = parseInt(e.target.value, 10);
+    const maxStok = getMaxStok();
     if (isNaN(value) || value < 1) setQuantity(1);
+    else if (maxStok !== null && value > maxStok) setQuantity(maxStok);
   };
 
   const handleAddToCart = async () => {
@@ -87,6 +109,11 @@ function Detail({ children }) {
       const ukuranObj = produk.ukurans.find((u) => u.nama === selectedUkuran);
       if (!ukuranObj) {
         Swal.fire({ icon: "error", title: "Ukuran tidak dipilih", text: "Silakan pilih ukuran produk terlebih dahulu." });
+        return;
+      }
+      if (quantity > ukuranObj.stok) {
+        Swal.fire({ icon: "error", title: "Stok tidak cukup", text: `Stok tersedia hanya ${ukuranObj.stok}.` });
+        setQuantity(ukuranObj.stok);
         return;
       }
       await addToCart(produk.id, quantity, ukuranObj.id);
