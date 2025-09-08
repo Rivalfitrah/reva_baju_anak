@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const api = "http://backend-go-gin-production.up.railway.app"
+const api = "https://backend-go-gin-production.up.railway.app"
 
 export async function loginUser(email, password) {
     try {
