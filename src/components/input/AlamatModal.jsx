@@ -73,7 +73,7 @@ function ProfilModal({ onClose }) {
 
     const token = localStorage.getItem("token");
 
-    await fetch("http://localhost:8000/edituser", {
+    await fetch("https://backend-go-gin-production.up.railway.app/edituser", {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`

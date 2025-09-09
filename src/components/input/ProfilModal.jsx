@@ -73,7 +73,7 @@ useEffect(() => {
 
     const token = localStorage.getItem("token");
 
-    await fetch("http://localhost:8000/edituser", {
+    await fetch("", {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`
