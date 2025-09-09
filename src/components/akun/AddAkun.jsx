@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { postUser } from '../../service/api'
 import Swal from 'sweetalert2'
 
+// Component AddAkun
 function AddAkun() {
   const [nama, setNama] = useState('')
   const [telepon, setTelepon] = useState('')

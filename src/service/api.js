@@ -329,4 +329,5 @@ export async function updatecartid (id, quantity) {
         console.error("gagal update cart:", error)
         throw error
     }
+
 }
