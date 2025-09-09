@@ -56,31 +56,19 @@ useEffect(() => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-
-  try {
-    const payload = new FormData();
-
-    // Tambah hanya field yang tidak kosong
-    if (formData.nama.trim() !== "") payload.append("nama", formData.nama);
-    if (formData.telepon.trim() !== "") payload.append("telepon", formData.telepon);
-    if (formData.alamat.trim() !== "") payload.append("alamat", formData.alamat);
-    if (formData.kota.trim() !== "") payload.append("kota", formData.kota);
-    if (formData.kodepos.trim() !== "") payload.append("kodepos", formData.kodepos);
-    if (formData.provinsi.trim() !== "") payload.append("provinsi", formData.provinsi);
-    if (formData.img) payload.append("img", formData.img);
-
-    const token = localStorage.getItem("token");
-
-    await fetch("", {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      body: payload
-    });
-    Swal.fire({
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await edituser(
+        formData.nama,
+        formData.telepon,
+        formData.alamat,
+        formData.kota,
+        formData.kodepos,
+        formData.provinsi,
+        formData.img
+      );
+      Swal.fire({
         title: 'Berhasil!',
         text: 'Profil berhasil diperbarui.',
         icon: 'success',
@@ -88,7 +76,6 @@ useEffect(() => {
       }).then(() => {
         window.location.reload();
       });
-
     } catch (err) {
       Swal.fire({
         title: 'Gagal!',
@@ -96,6 +83,8 @@ useEffect(() => {
         icon: 'error',
         confirmButtonText: 'OK'
       });
+    } finally {
+      setLoading(false);
     }
   };
 
