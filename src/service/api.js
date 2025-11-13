@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const api = "https://backend-go-gin-production.up.railway.app"
+const api = "https://backend-go-gin-production-2.up.railway.app"
 
 export async function loginUser(email, password) {
     try {
@@ -331,3 +331,4 @@ export async function updatecartid (id, quantity) {
     }
 
 }
+
